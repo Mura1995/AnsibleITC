@@ -1,0 +1,9 @@
+list: # (<<-with_items = item.name    =item.state)
+  - name: wget
+    state: present
+  - name: zip
+    state: absent
+  - name: git
+    state: present
+  - name: mariadb-server
+    state: present

@@ -1,0 +1,17 @@
+---
+- name: Install Apache
+  hosts: webservers
+  become: True
+  tasks:
+    - name: Download and Install Apache
+      yum:
+       name: httpd
+       state: present
+    - name: Start and Enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    
+
+### Find a module to start and enable HTTPD ob webservers

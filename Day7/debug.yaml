@@ -1,0 +1,10 @@
+---
+- name: Debug info about distribution
+  hosts: all
+  tasks:
+    - name: Getting OS
+      debug:
+        msg: "OS of the server is {{ ansible_distribution }}"
+    - name: ansible_env
+      debug:
+        var: ansible_env.USER

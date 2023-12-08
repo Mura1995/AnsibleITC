@@ -1,0 +1,11 @@
+---
+- name: Debug info about distribution
+  hosts: web1
+  tasks:
+    - name:  Selinux status
+      debug: 
+        var: ansible_selinux.status
+    - name: mount info
+      debug:
+        var: ansible_mounts[0].block_available
+

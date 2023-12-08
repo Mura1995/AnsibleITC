@@ -1,0 +1,43 @@
+---
+- name: Install Apache
+  hosts: webservers
+  become: True
+  tasks:
+    - name: Download and Install Apache
+      yum:
+       name: httpd
+       state: present
+    - name: Start and Enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: Download and Install Apache
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wget
+        - zip
+        - unzip
+        - git    
+    # Find module to add group "Developers" and users (user1,user2,user3)
+    - name: Create group "developer
+      group:
+        name: developers
+        state: present
+    - name: Create users from list
+      user:
+        name: "{{ item }}"
+        comment: adding users from list
+        groups: developers
+      loop:
+        - user1
+        - user2
+        - user3
+      register: users
+    
+    - name: Output of user module
+      debug:
+        var: users.results[0].invocation.module_args.name
+            

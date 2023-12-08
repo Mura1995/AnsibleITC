@@ -1,0 +1,89 @@
+- name: Install mariadb on Databases hosts
+  hosts: database
+  vars_files:
+ #   - vars/users.yaml
+     - vars/packs.yaml
+  become: True
+  tasks:
+    - name: Install Mariadb on RedHat
+      dnf:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      when: ansible_distribution == "RedHat"
+      with_items: "{{ list }}"
+    
+    - name: Install Mariadb on Ubuntu
+      apt:
+        update_cache: yes
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      when: ansible_distribution == "Ubuntu"
+      with_items: "{{ list }}"
+      
+    - name: Start and Enable MariaDB
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Install PyMysql on ReDHat
+      dnf:
+        name: python3-PyMySQL
+        state: present
+      when: ansible_distribution == "RedHat"
+
+    - name: Install PyMysql on Ubuntu
+      apt:
+        name: python3-pymysql
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Create Database on mariadb on RedHat
+      mysql_db:
+        name: testDB
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+      when: ansible_distribution == "RedHat"
+
+    - name: Create Database on mariadb on RedHat
+      mysql_db:
+        name: testDb
+        state: present
+        login_unix_socket: /run/mysqld/mysqld.sock
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Create database user with name 'bob' and password '12345' with all database privileges
+      community.mysql.mysql_user:
+        name: bob
+        password: 12345
+        priv: '*.*:ALL'
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+      when: ansible_distribution == "RedHat"
+
+    - name: Create database user with name 'bob' and password '12345' with all database privileges
+      community.mysql.mysql_user:
+        name: bob
+        password: 12345
+        priv: '*.*:ALL'
+        state: present
+        login_unix_socket: /run/mysqld/mysqld.sock
+      when: ansible_distribution == "Ubuntu"
+    
+
+    - name: Create group for user
+      group:
+        name: engineers
+        state: present
+    
+    - name: Create user for group engineers
+      user:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+        comment: this is users added from  vars file
+        groups: engineers
+      with_items: "{{ users }}"
+#      loop:
+#       - user1
+#        - user2
+#        - user3

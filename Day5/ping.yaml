@@ -1,0 +1,6 @@
+---
+- name: Ping all servers
+  hosts: all
+  tasks:
+    - name: Hope to ping
+      ping:

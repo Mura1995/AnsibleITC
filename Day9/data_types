@@ -1,0 +1,28 @@
+String:
+    # строчное значение
+    "ansible_architecture": "x86_64",
+Dictionary:
+    # словарь
+    "ansible_cmdline": {
+            "BOOT_IMAGE": "(hd0,gpt3)/vmlinuz-5.14.0-362.8.1.el9_3.x86_64",
+            "console": "tty0",
+            "crashkernel": "1G-4G:192M,4G-64G:256M,64G-:512M",
+            "net.ifnames": "0",
+            "nvme_core.io_timeout": "4294967295",
+            "rd.blacklist": "nouveau",
+            "root": "UUID=2cfdcca4-d3e3-40cb-b58e-0bed76bdceec"
+        },
+
+List: 
+    № список значений
+     "xvda": {
+                "holders": [],
+                "host": "",
+                "links": 
+     }
+     ansible_mounts block_available
+     ansible_selinux  status
+
+boolean: 
+    # True or False
+     "module_setup": true

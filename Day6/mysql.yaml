@@ -1,0 +1,16 @@
+- name: Install MySQL
+  hosts: database
+  become: True
+  tasks:    
+   - name: copy config file to db server
+     copy:
+      src: .my.cnf
+      dest: /root/.my.cnf
+   - name: Create Database on mariadb
+     mysql_db:
+      name: test
+      state: present
+      login_host: localhost
+      login_user: root
+      login_password: "password"
+      login_unix_socket: /var/lib/mysql/mysql.sock

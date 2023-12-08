@@ -1,0 +1,11 @@
+# users.yml
+users:
+  - name: alice
+    state: present
+  - name: bob
+    state: absent
+  - name: charlie
+    state: absent
+# Add more users as needed
+
+
